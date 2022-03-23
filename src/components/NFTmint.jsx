@@ -35,15 +35,17 @@ function getBase64(img, callback) {
 }
 
 function beforeUpload(file) {
-  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-  if (!isJpgOrPng) {
-    message.error('You can only upload JPG/PNG file!');
+  // JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG, GLB, GLTF
+  const extension = file.type.split('/')[1]
+  const validateExtension = extension === 'jpeg' || extension === 'mp4' || extension === 'png'|| extension === 'ogg' || extension === 'wav'
+  if (!validateExtension) {
+    message.error('You can only upload JPG/PNG/mp4/ogg/wav file!');
   }
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    message.error('Image must smaller than 2MB!');
+  const isLt100M = file.size / 1024 / 1024 < 100;
+  if (!isLt100M) {
+    message.error('Image must smaller than 100MB!');
   }
-  return isJpgOrPng && isLt2M;
+  return validateExtension && isLt100M;
 }
 
 function NFTMint() {

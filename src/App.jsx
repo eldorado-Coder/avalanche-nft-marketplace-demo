@@ -80,11 +80,14 @@ const App = ({ isServerInfo }) => {
             <Menu.Item key="nftMarket" onClick={() => setInputValue("explore")} >
               <NavLink to="/NFTMarketPlace">🛒 Explore Market</NavLink>
             </Menu.Item>
-            <Menu.Item key="nft">
+            {/* <Menu.Item key="nft">
               <NavLink to="/nftBalance">🖼 Your Collection</NavLink>
-            </Menu.Item>
-            <Menu.Item key="transactions">
+            </Menu.Item> */}
+            {/* <Menu.Item key="transactions">
               <NavLink to="/Transactions">📑 Your Transactions</NavLink>
+            </Menu.Item> */}
+            <Menu.Item key="Create">
+              <NavLink to="/Create">📑 Create</NavLink>
             </Menu.Item>
           </Menu>
           <div style={styles.headerRight}>
@@ -104,11 +107,11 @@ const App = ({ isServerInfo }) => {
             <Route path="/Transactions">
               <NFTMarketTransactions />
             </Route>
-            <Route path="/mint">
+            <Route path="/Create">
               <NFTMint />
             </Route>
           </Switch>
-          {/* <Redirect to="/NFTMarketPlace" /> */}
+          <Redirect to="/NFTMarketPlace" />
         </div>
       </Router>
     </Layout>
@@ -117,7 +120,7 @@ const App = ({ isServerInfo }) => {
 
 export const Logo = () => (
   <div style={{ display: "flex" }}>
-    <svg
+    {/* <svg
       width="60"
       height="38"
       viewBox="0 0 50 38"
@@ -136,8 +139,17 @@ export const Logo = () => (
         d="M39.7135 25.1249C37.1094 25.1025 34.9991 27.2127 34.9766 29.8169C34.9542 32.4211 37.0645 34.5313 39.6686 34.5538C41.1503 34.5538 42.5647 33.8578 43.4626 32.6905C43.53 32.6007 43.5973 32.4884 43.6871 32.3986C45.1015 30.221 44.4729 27.3025 42.2953 25.9107C41.532 25.3943 40.634 25.1249 39.7135 25.1249Z"
         fill="#B7E803"
       />
-    </svg>
-
+    </svg> */}
+    <svg width="60" height="38" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M0 10C0 4.47715 4.47715 0 10 0H20C25.5228 0 30 4.47715 30 10V20C30 25.5228 25.5228 30 20 30H10C4.47715 30 0 25.5228 0 20V10Z"
+      fill="#E84142"
+    />
+    <path
+      d="M20.2914 15.3898C20.8111 14.4921 21.6497 14.4921 22.1693 15.3898L25.4056 21.0709C25.9252 21.9685 25.5 22.7008 24.4607 22.7008H17.941C16.9134 22.7008 16.4882 21.9685 16.9961 21.0709L20.2914 15.3898ZM14.0315 4.45277C14.5512 3.55513 15.378 3.55513 15.8977 4.45277L16.6182 5.75198L18.3189 8.74017C18.7323 9.59056 18.7323 10.5945 18.3189 11.4449L12.6142 21.3307C12.0945 22.1339 11.2323 22.6417 10.2756 22.7008H5.53942C4.50005 22.7008 4.07485 21.9803 4.59454 21.0709L14.0315 4.45277Z"
+      fill="white"
+    />
+  </svg>
   </div>
 );
 

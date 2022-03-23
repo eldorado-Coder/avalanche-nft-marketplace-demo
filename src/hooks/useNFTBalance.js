@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useMoralisDapp } from "providers/MoralisDappProvider/MoralisDappProvider";
 import { useEffect, useState } from "react";
 import { useMoralisWeb3Api, useMoralisWeb3ApiCall } from "react-moralis";

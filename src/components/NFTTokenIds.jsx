@@ -179,7 +179,7 @@ function NFTTokenIds({ inputValue, setInputValue }) {
             <div style={{ marginBottom: "10px" }}></div>
           </>
         )}
-        {console.log('input vaoue - ', inputValue)}
+        {console.log('input value - ', inputValue, totalNFTs)}
         {inputValue !== "explore" && totalNFTs !== undefined && (
           <>
             {!fetchSuccess && (

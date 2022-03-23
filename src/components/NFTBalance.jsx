@@ -238,7 +238,7 @@ function NFTBalance() {
           />
           <Input
             autoFocus
-            placeholder="Listing Price in MATIC"
+            placeholder="Listing Price in AVAX"
             onChange={(e) => setPrice(e.target.value)}
           />
         </Spin>
