@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import useChain from "hooks/useChain";
 import { useMoralisDapp } from "providers/MoralisDappProvider/MoralisDappProvider";
-import { Menu, Dropdown, Button } from "antd";
+import { Menu, Dropdown, Button, message } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import { AvaxLogo, PolygonLogo, BSCLogo, ETHLogo } from "./Logos";
 
@@ -93,6 +93,10 @@ function Chains() {
     if (!chainId) return null;
     const newSelected = menuItems.find((item) => item.key === chainId);
     setSelected(newSelected);
+    if(chainId !== '0xa869') {
+      message.warn('You have to change network to avalanche')
+      switchNetwork('0xa869')
+    }
     console.log("current chainId: ", chainId);
   }, [chainId]);
 
