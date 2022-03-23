@@ -52,9 +52,6 @@ const styles = {
 const App = ({ isServerInfo }) => {
   const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading } =
     useMoralis();
-
-
-
   const [inputValue, setInputValue] = useState("explore");
 
   useEffect(() => {

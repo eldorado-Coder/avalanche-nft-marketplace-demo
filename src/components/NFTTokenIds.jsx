@@ -63,8 +63,7 @@ function NFTTokenIds({ inputValue, setInputValue }) {
   const [nftToBuy, setNftToBuy] = useState(null);
   const [loading, setLoading] = useState(false);
   const contractProcessor = useWeb3ExecuteFunction();
-  const { chainId, marketAddress, contractABI, walletAddress } =
-    useMoralisDapp();
+  const { chainId, marketAddress, contractABI, walletAddress } = useMoralisDapp();
   const nativeName = getNativeByChain(chainId);
   const contractABIJson = JSON.parse(contractABI);
   const { Moralis } = useMoralis();
@@ -180,6 +179,7 @@ function NFTTokenIds({ inputValue, setInputValue }) {
             <div style={{ marginBottom: "10px" }}></div>
           </>
         )}
+        {console.log('input vaoue - ', inputValue)}
         {inputValue !== "explore" && totalNFTs !== undefined && (
           <>
             {!fetchSuccess && (
@@ -300,9 +300,8 @@ function NFTTokenIds({ inputValue, setInputValue }) {
               >
                 <Badge.Ribbon
                   color="green"
-                  text={`${
-                    getMarketItem(nftToBuy).price / ("1e" + 18)
-                  } ${nativeName}`}
+                  text={`${getMarketItem(nftToBuy).price / ("1e" + 18)
+                    } ${nativeName}`}
                 >
                   <img
                     src={nftToBuy?.image}
@@ -333,7 +332,7 @@ function NFTTokenIds({ inputValue, setInputValue }) {
               }}
             />
             <Alert
-              message="This NFT is currently not for sale"  
+              message="This NFT is currently not for sale"
               type="warning"
             />
           </Modal>

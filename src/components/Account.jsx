@@ -2,7 +2,7 @@ import { useMoralisDapp } from "providers/MoralisDappProvider/MoralisDappProvide
 import { useMoralis } from "react-moralis";
 import { getEllipsisTxt } from "helpers/formatters";
 import Blockie from "./Blockie";
-import { Button, Card, Modal, message } from "antd";
+import { Button, Card, Modal } from "antd";
 import { useState } from "react";
 import Address from "./Address/Address";
 import { SelectOutlined } from "@ant-design/icons";
@@ -28,17 +28,13 @@ function Account() {
   const { authenticate, isAuthenticated, logout } = useMoralis();
   const { walletAddress, chainId } = useMoralisDapp();
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const { Moralis } = useMoralis()
 
   if (!isAuthenticated) {
     return (
       <div
         style={styles.account}
         onClick={() => {
-           message.error('Please switch to Avalanche Network', [3000])
-           authenticate({ provider: "walletconnect", chainId: 43313, signingMessage: "Hello"})
-          
-          
+           authenticate({ signingMessage: "Hello"})
           }}
       >
         <p style={styles.text}>Authenticate</p>

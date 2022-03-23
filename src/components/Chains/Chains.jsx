@@ -23,11 +23,6 @@ const styles = {
 
 const menuItems = [
   // {
-  //   key: "0x1",
-  //   value: "Ethereum",
-  //   icon: <ETHLogo />,
-  // },
-  // {
   //   key: "0x539",
   //   value: "Local Chain",
   //   icon: <ETHLogo />,
@@ -67,16 +62,21 @@ const menuItems = [
   //   value: "Polygon",
   //   icon: <PolygonLogo />,
   // },
-  {
-    key: "0x13881",
-    value: "Mumbai",
-    icon: <PolygonLogo />,
-  },
+  // {
+  //   key: "0x13881",
+  //   value: "Mumbai",
+  //   icon: <PolygonLogo />,
+  // },
   {
     key: "0xa86a",
     value: "Avalanche",
     icon: <AvaxLogo />,
   },
+   {
+    key: "0xa869",
+    value: "Fuji C-Chain",
+    icon: <AvaxLogo />
+  }
 ];
 
 function Chains() {
@@ -92,7 +92,6 @@ function Chains() {
   }, [chainId]);
 
   const handleMenuClick = (e) => {
-    console.log("switch to: ", e.key);
     switchNetwork(e.key);
   };
 
