@@ -148,7 +148,7 @@
   "sourceMap": "356:1065:1:-;;;575:36;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;504:65;8:9:-1;5:2;;;30:1;27;20:12;5:2;504:65:1;557:5;535:8;:19;544:9;535:19;;;;;;;;;;;;;;;:27;;;;356:1065;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;:::-;;;;;;;",
   "deployedSourceMap": "356:1065:1:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;356:1065:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;575:36;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:10;8:100;;;99:1;94:3;90:11;84:18;80:1;75:3;71:11;64:39;52:2;49:1;45:10;40:15;;8:100;;;12:14;575:36:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;945:228;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;945:228:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;1179:132;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;1179:132:1;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;618:321;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;618:321:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;1317:102;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;1317:102:1;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;575:36;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;945:228::-;1031:15;1086:6;1062:8;:20;1071:10;1062:20;;;;;;;;;;;;;;;;:30;;;;;;;;;;;1128:8;1107:38;;1116:10;1107:38;;;1138:6;1107:38;;;;;;;;;;;;;;;;;;1162:4;1155:11;;945:228;;;;:::o;1179:132::-;1239:7;1265:10;:18;1284:16;1295:4;1284:10;:16::i;:::-;1302:1;1265:39;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;1265:39:1;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;1265:39:1;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;1265:39:1;;;;;;;;;;;;;;;;1258:46;;1179:132;;;:::o;618:321::-;702:15;760:6;737:8;:20;746:10;737:20;;;;;;;;;;;;;;;;:29;733:47;;;775:5;768:12;;;;733:47;814:6;790:8;:20;799:10;790:20;;;;;;;;;;;;;;;;:30;;;;;;;;;;;852:6;830:8;:18;839:8;830:18;;;;;;;;;;;;;;;;:28;;;;;;;;;;;894:8;873:38;;882:10;873:38;;;904:6;873:38;;;;;;;;;;;;;;;;;;928:4;921:11;;618:321;;;;;:::o;1317:102::-;1372:7;1398:8;:14;1407:4;1398:14;;;;;;;;;;;;;;;;1391:21;;1317:102;;;:::o",
   "source": "// SPDX-License-Identifier: MIT\npragma solidity >=0.4.25 <0.7.0;\n\nimport \"./ConvertLib.sol\";\n\n// This is just a simple example of a coin-like contract.\n// It is not standards compatible and cannot be expected to talk to other\n// coin/token contracts. If you want to create a standards-compliant\n// token, see: https://github.com/ConsenSys/Tokens. Cheers!\n\ncontract MetaCoin {\n    mapping(address => uint256) balances;\n\n    event Transfer(address indexed _from, address indexed _to, uint256 _value);\n\n    constructor() public {\n        balances[tx.origin] = 10000;\n    }\n\n    string public name = \"Test Coin Wow\";\n\n    function sendCoin(address receiver, uint256 amount)\n        public\n        returns (bool sufficient)\n    {\n        if (balances[msg.sender] < amount) return false;\n        balances[msg.sender] -= amount;\n        balances[receiver] += amount;\n        emit Transfer(msg.sender, receiver, amount);\n        return true;\n    }\n\n    function faucetCoin(address receiver, uint256 amount)\n        public\n        returns (bool sufficient)\n    {\n        balances[msg.sender] += amount;\n        emit Transfer(msg.sender, receiver, amount);\n        return true;\n    }\n\n    function getBalanceInEth(address addr) public view returns (uint256) {\n        return ConvertLib.convert(getBalance(addr), 2);\n    }\n\n    function getBalance(address addr) public view returns (uint256) {\n        return balances[addr];\n    }\n}\n",
-  "sourcePath": "C:\\Users\\aec\\Downloads\\ethereum-nft-marketplace-boilerplate-main\\Truffle\\contracts\\MetaCoin.sol",
+  "sourcePath": "C:\\Users\\aec\\Downloads\\avalanche-nft-marketplace\\Truffle\\contracts\\MetaCoin.sol",
   "ast": {
     "absolutePath": "project:/contracts/MetaCoin.sol",
     "exportedSymbols": {
@@ -3447,14 +3447,14 @@
     "1337": {
       "events": {},
       "links": {
-        "ConvertLib": "0xCfEB869F69431e42cdB54A4F4f105C19C080A601"
+        "ConvertLib": "0xe982E462b094850F12AF94d21D470e21bE9D0E9C"
       },
-      "address": "0x254dffcd3277C0b1660F6d42EFbB754edaBAbC2B",
-      "transactionHash": "0xb649d6c24c1ea34ce05c9222c032b0361f3b4fcbb7e8804f499e4b7d9601fdf5"
+      "address": "0x59d3631c86BbE35EF041872d502F218A39FBa150",
+      "transactionHash": "0xfaf61c2c2238b6f2206da094438cdd1b6953ef2e4357810dcd996b7c99e7cbcb"
     }
   },
   "schemaVersion": "3.4.6",
-  "updatedAt": "2022-03-21T10:17:36.663Z",
+  "updatedAt": "2022-03-25T09:32:51.714Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}

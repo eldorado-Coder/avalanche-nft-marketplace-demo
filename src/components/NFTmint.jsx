@@ -1,19 +1,16 @@
 import React, { useState } from "react";
 import { useMoralisDapp } from "providers/MoralisDappProvider/MoralisDappProvider";
-import { PolygonCurrency } from "./Chains/Logos";
 import {
   Form,
-  Radio,
-  Slider,
   Button,
+  Row,
   Upload,
-  Rate,
   InputNumber,
   Input,
   Col,
-  message
+  message,
 } from 'antd';
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import { UploadOutlined } from '@ant-design/icons';
 import TextArea from "antd/lib/input/TextArea";
 import Moralis from "moralis";
 // import { contractABI, contractAddress } from "../../contract";
@@ -37,7 +34,6 @@ function getBase64(img, callback) {
 
 function NFTMint() {
 
-  const [loading, setLoading] = useState(false)
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("")
@@ -47,13 +43,11 @@ function NFTMint() {
 
 
   function beforeUpload(file) {
-    setLoading(true)
     // JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG, GLB, GLTF
     const extension = file.type.split('/')[1]
     const validateExtension = extension === 'jpeg' || extension === 'mp4' || extension === 'png' || extension === 'ogg' || extension === 'wav'
     if (!validateExtension) {
       message.error('You can only upload JPG/PNG/mp4/ogg/wav file!');
-      setLoading(false)
       return;
     }
     const isLt100M = file.size / 1024 / 1024 < 100;
@@ -65,7 +59,6 @@ function NFTMint() {
       // Attempt to save image to IPFS
       const file1 = new Moralis.File(file.name, file);
       file1.saveIPFS().then((result) => {
-        setLoading(false)
         console.log('result - ', result)
       });
       const file1url = file1.ipfs();
@@ -124,56 +117,57 @@ function NFTMint() {
     // router.push('/')
   }
 
-  const uploadButton = (
-    <div>
-      {loading ? <LoadingOutlined /> : <PlusOutlined />}
-      <div style={{ marginTop: 8 }}>Upload</div>
-    </div>
-  );
-
   return (
     <div className="mint-container">
-      <h1>Create New Item</h1>
-      <Form
-        name="validate_other"
-        {...formItemLayout}
-        onFinish={() => onFinish()}
-      >
-        <Upload
-          name="avatar"
-          className="avatar-uploader"
-          showUploadList={{ showPreviewIcon: false, showRemoveIcon: true }}
-          beforeUpload={beforeUpload}
-          listType='picture-card'
-        >
-          {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
-        </Upload>
-        <Form.Item
-          label="Name"
-          name="Name"
-          rules={[{ required: true, message: 'Please input your Name!' }]}
-          extra="File types supported: JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG, GLB, GLTF. Max size: 100 MB"
-        >
-          <Input value={name} onChange={(e) => setName(e.target.value)} />
-        </Form.Item>
-        <Form.Item
-          label="price"
-          name="price"
-          rules={[{ required: true, message: 'Please input Price!' }]}
-        >
-          <InputNumber min={0} defaultValue={0} value={price} onChange={(value) => setPrice(value)} />
-        </Form.Item>
-        <Form.Item
-          label="Description"
-          name="Description"
-          rules={[{ required: true, message: 'Please input Description!' }]}
-        >
-          <TextArea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Provide a detailed description of the item" />
-        </Form.Item>
-        <Button onClick={listNFTForSale} type="primary" htmlType="submit" style={{ left: '47%' }}>
-          Create
-        </Button>
-      </Form>
+      <h1 >Create New Item</h1>
+      <Row>
+        <Col xs={16}>
+          <Form
+            name="validate_other"
+            style={{ marginTop: '50px' }}
+            {...formItemLayout}
+            onFinish={() => onFinish()}
+          >
+            <Form.Item
+              label="Name"
+              name="Name"
+              rules={[{ required: true, message: 'Please input your Name!' }]}
+              extra="File types supported: JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG, GLB, GLTF. Max size: 100 MB"
+            >
+              <Input value={name} onChange={(e) => setName(e.target.value)} />
+            </Form.Item>
+            <Form.Item
+              label="price"
+              name="price"
+              rules={[{ required: true, message: 'Please input Price!' }]}
+            >
+              <InputNumber min={0} value={price} onChange={(value) => setPrice(value)} />
+            </Form.Item>
+            <Form.Item
+              label="Description"
+              name="Description"
+              rules={[{ required: true, message: 'Please input Description!' }]}
+            >
+              <TextArea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Provide a detailed description of the item" />
+            </Form.Item>
+            <Button onClick={listNFTForSale} type="primary" htmlType="submit" style={{ left: '47%' }}>
+              Create
+            </Button>
+          </Form>
+        </Col>
+        <Col xs={6}>
+          <Upload
+            name="avatar"
+            listType="picture"
+            className="avatar-uploader upload-list-inline"
+            beforeUpload={beforeUpload}
+            multiple
+          >
+            <Button icon={<UploadOutlined />}>Upload</Button>
+          </Upload>
+        </Col>
+      </Row>
+
     </div>
 
   );
