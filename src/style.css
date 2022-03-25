@@ -26,5 +26,5 @@
   padding: 0 40px;
 }
 .mint-container .avatar-uploader {
-  text-align: center;
+  transform: translate(45%, 0);
 }

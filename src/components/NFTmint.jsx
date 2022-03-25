@@ -34,19 +34,6 @@ function getBase64(img, callback) {
   reader.readAsDataURL(img);
 }
 
-function beforeUpload(file) {
-  // JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG, GLB, GLTF
-  const extension = file.type.split('/')[1]
-  const validateExtension = extension === 'jpeg' || extension === 'mp4' || extension === 'png'|| extension === 'ogg' || extension === 'wav'
-  if (!validateExtension) {
-    message.error('You can only upload JPG/PNG/mp4/ogg/wav file!');
-  }
-  const isLt100M = file.size / 1024 / 1024 < 100;
-  if (!isLt100M) {
-    message.error('Image must smaller than 100MB!');
-  }
-  return validateExtension && isLt100M;
-}
 
 function NFTMint() {
 
@@ -58,11 +45,29 @@ function NFTMint() {
   const [file, setFile] = useState(null);
   const { walletAddress } = useMoralisDapp();
 
-  async function onFinish (values) {
+
+  function beforeUpload(file) {
+    setLoading(true)
+    // JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG, GLB, GLTF
+    const extension = file.type.split('/')[1]
+    const validateExtension = extension === 'jpeg' || extension === 'mp4' || extension === 'png' || extension === 'ogg' || extension === 'wav'
+    if (!validateExtension) {
+      message.error('You can only upload JPG/PNG/mp4/ogg/wav file!');
+      setLoading(false)
+      return;
+    }
+    const isLt100M = file.size / 1024 / 1024 < 100;
+    if (!isLt100M) {
+      message.error('Image must smaller than 100MB!');
+      return;
+    }
     try {
       // Attempt to save image to IPFS
       const file1 = new Moralis.File(file.name, file);
-      await file1.saveIPFS();
+      file1.saveIPFS().then((result) => {
+        setLoading(false)
+        console.log('result - ', result)
+      });
       const file1url = file1.ipfs();
       // Generate metadata and save to IPFS
       const metadata = {
@@ -73,8 +78,19 @@ function NFTMint() {
       const file2 = new Moralis.File(`${name}metadata.json`, {
         base64: Buffer.from(JSON.stringify(metadata)).toString("base64"),
       });
-      await file2.saveIPFS();
+      file2.saveIPFS().then((result) => {
+        console.log('result 2 - ', result)
+      });
       const metadataurl = file2.ipfs();
+    } catch (error) {
+
+    }
+    return false
+  }
+
+  async function onFinish(values) {
+    try {
+
       // const contract = new Web3.eth.Contract(contractABI, contractAddress);
       // const response = await contract.methods
       //   .mint(metadataurl)
@@ -88,6 +104,7 @@ function NFTMint() {
       alert("An error occured!");
     }
   };
+
 
   async function listNFTForSale() {
     // const url = await uploadToIPFS()
@@ -103,24 +120,9 @@ function NFTMint() {
     // listingPrice = listingPrice.toString()
     // let transaction = await contract.createToken(url, price, { value: listingPrice })
     // await transaction.wait()
-   
+
     // router.push('/')
   }
-  const handleChange = info => {
-    if (info.file.status === 'uploading') {
-      setLoading(true)
-      return;
-    }
-    if (info.file.status === 'done') {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj, imageUrl =>
-        this.setState({
-          imageUrl,
-          loading: false,
-        }),
-      );
-    }
-  };
 
   const uploadButton = (
     <div>
@@ -139,13 +141,10 @@ function NFTMint() {
       >
         <Upload
           name="avatar"
-          listType="picture-card"
           className="avatar-uploader"
-          showUploadList={false}
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+          showUploadList={{ showPreviewIcon: false, showRemoveIcon: true }}
           beforeUpload={beforeUpload}
-          onChange={handleChange}
-          multiple
+          listType='picture-card'
         >
           {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
         </Upload>
@@ -155,14 +154,14 @@ function NFTMint() {
           rules={[{ required: true, message: 'Please input your Name!' }]}
           extra="File types supported: JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG, GLB, GLTF. Max size: 100 MB"
         >
-          <Input value={name} onChange={(e)=> setName(e.target.value)} />
+          <Input value={name} onChange={(e) => setName(e.target.value)} />
         </Form.Item>
         <Form.Item
           label="price"
           name="price"
           rules={[{ required: true, message: 'Please input Price!' }]}
         >
-          <InputNumber min={0} defaultValue={0} value={price} onChange={(value)=>setPrice(value)} />
+          <InputNumber min={0} defaultValue={0} value={price} onChange={(value) => setPrice(value)} />
         </Form.Item>
         <Form.Item
           label="Description"
@@ -171,7 +170,7 @@ function NFTMint() {
         >
           <TextArea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Provide a detailed description of the item" />
         </Form.Item>
-        <Button onClick={listNFTForSale} type="primary" htmlType="submit">
+        <Button onClick={listNFTForSale} type="primary" htmlType="submit" style={{ left: '47%' }}>
           Create
         </Button>
       </Form>
